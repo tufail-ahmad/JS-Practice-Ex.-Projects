@@ -1,11 +1,11 @@
 let todoList = [
   {
     item: "Buy Milk",
-    dueDate: 3 / 1 / 2025,
+    dueDate: "03/01/2025",
   },
   {
     item: "Go to college",
-    dueDate: 3 / 1 / 2025,
+    dueDate: "03/01/2025",
   },
 ];
 displayItems();
@@ -25,12 +25,10 @@ function displayItems() {
   for (let i = 0; i < todoList.length; i++) {
     let { item, dueDate } = todoList[i];
     newHtml += `
-    <div>
       <span>${item}</span>
       <span>${dueDate}</span>
-      <button onClick="todoList.splice(${i}, 1);
+      <button class="delete-btn" onClick="todoList.splice(${i}, 1);
       displayItems();">Delete</button>
-    </div>
     `;
   }
   containerElement.innerHTML = newHtml;
