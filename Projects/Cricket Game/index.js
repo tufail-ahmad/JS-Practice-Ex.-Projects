@@ -1,121 +1,140 @@
 /*==================== Score Functionality =====================*/
 let scoreStr = localStorage.getItem("score");
+let score;
+reserScore(scoreStr);
+function reserScore(scoreStr) {
+  score = scoreStr
+    ? JSON.parse(scoreStr)
+    : {
+        win: 0,
+        lose: 0,
+        tie: 0,
+      };
 
-let score = JSON.parse(scoreStr) || {
-  win: 0,
-  lose: 0,
-  tie: 0,
-};
+  score.displayScore = () => {
+    return `win: ${score.win}, lost: ${score.lose}, tie: ${score.tie}`;
+  };
+  showDisplayResult();
+}
 
-let displayScore = () => {
-  return `win: ${score.win}, lost: ${score.lose}, tie: ${score.tie}`;
-};
-
-/*==================== Computer Random Move =====================*/
-let computerMove;
-const computerRandomMove = () => {
+/*==================== Generate Computer Choice =====================*/
+const generateComputerChoice = () => {
   let computerRandomChoice = Math.random() * 3;
   if (computerRandomChoice <= 1) {
-    computerMove = "Bat";
+    return "Bat";
   } else if (computerRandomChoice <= 2) {
-    computerMove = "Ball";
+    return "Ball";
   } else {
-    computerMove = "Stump";
+    return "Stump";
   }
 };
+
+/*==================== Generate Result Msg =====================*/
+const generateResultMsg = (userMove, computerMove) => {
+  if (userMove === "Bat") {
+    if (computerMove == "Bat") {
+      score.tie++;
+      return "It's a tie";
+    } else if (computerMove == "Ball") {
+      score.win++;
+      return "User has won";
+    } else {
+      score.lose++;
+      return "Computer has won";
+    }
+  } else if (userMove === "Ball") {
+    if (computerMove == "Ball") {
+      score.tie++;
+      return "It's a tie";
+    } else if (computerMove == "Stump") {
+      score.win++;
+      return "User has won";
+    } else {
+      score.lose++;
+      return "Computer has won";
+    }
+  } else if (userMove === "Stump") {
+    if (computerMove == "Stump") {
+      score.tie++;
+      return "It's a tie";
+    } else if (computerMove == "Bat") {
+      score.win++;
+      return "User has won";
+    } else {
+      score.lose++;
+      return "Computer has won";
+    }
+  }
+};
+
+/*==================== Show Display Result =====================*/
+function showDisplayResult(userMove, computerMove, resultMsg, displayScore) {
+  localStorage.setItem("score", JSON.stringify(score));
+
+  document.querySelector("#user-move").innerText = userMove
+    ? `You have chosen ${userMove}`
+    : "";
+
+  document.querySelector("#computer-move").innerText = computerMove
+    ? `Computer Choice is ${computerMove}`
+    : "";
+
+  document.querySelector("#result-msg").innerText = resultMsg || "";
+
+  document.querySelector("#score").innerText = score.displayScore();
+}
 
 /*==================== Bat Button Functionality =====================*/
 const batBtn = document.querySelector("#bat-btn");
 
 batBtn.addEventListener("click", () => {
-  computerRandomMove();
-  let resultMsg;
-  if (computerMove == "Bat") {
-    resultMsg = "It's a tie";
-    score.tie++;
-  } else if (computerMove == "Ball") {
-    resultMsg = "User has won";
-    score.win++;
-  } else {
-    resultMsg = "Computer has won";
-    score.lose++;
-  }
-  localStorage.setItem("score", JSON.stringify(score));
-  alert(
-    `You have Chosen Bat. Computer choice is ${computerMove}.
-
-  ${resultMsg}.
-
-  ${displayScore()}`
-  );
+  let computerMove = generateComputerChoice();
+  let resultMsg = generateResultMsg("Bat", computerMove);
+  showDisplayResult("Bat", computerMove, resultMsg);
 });
 
 /*==================== Ball Button Functionality =====================*/
 const ballBtn = document.querySelector("#ball-btn");
 
 ballBtn.addEventListener("click", () => {
-  computerRandomMove();
-
-  let resultMsg;
-  if (computerMove == "Ball") {
-    resultMsg = "It's a tie";
-    score.tie++;
-  } else if (computerMove == "Stump") {
-    resultMsg = "User has won";
-    score.win++;
-  } else {
-    resultMsg = "Computer has won";
-    score.lose++;
-  }
-  localStorage.setItem("score", JSON.stringify(score));
-  alert(
-    `You have Chosen Ball. Computer choice is ${computerMove}.
-
-    ${resultMsg}.
-    
-    ${displayScore()}`
-  );
+  computerMove = generateComputerChoice();
+  let resultMsg = generateResultMsg("Ball", computerMove);
+  showDisplayResult("Ball", computerMove, resultMsg);
 });
 
 /*==================== Stump Button Functionality =====================*/
 const stumpBtn = document.querySelector("#stump-btn");
 
 stumpBtn.addEventListener("click", () => {
-  computerRandomMove();
-
-  let resultMsg;
-  if (computerMove == "Stump") {
-    resultMsg = "It's a tie";
-    score.tie++;
-  } else if (computerMove == "Bat") {
-    resultMsg = "User has won";
-    score.win++;
-  } else {
-    resultMsg = "Computer has won";
-    score.lose++;
-  }
-  localStorage.setItem("score", JSON.stringify(score));
-  document.querySelector(
-    ".heading"
-  ).innerText = `You have Chosen Stump. Computer choice is ${computerMove}. 
-    
-    ${resultMsg}.
-    
-    ${displayScore()}`;
+  computerMove = generateComputerChoice();
+  let resultMsg = generateResultMsg("Stump", computerMove);
+  showDisplayResult("Stump", computerMove, resultMsg);
 });
 
 /*==================== Stump Button Functionality =====================*/
 let resetBtn = document.querySelector("#reset-btn");
 
 resetBtn.addEventListener("click", () => {
-  localStorage.clear();
-  score = {
-    win: 0,
-    lose: 0,
-    tie: 0,
-  };
+  reserScore();
 });
 
-/*==================== Show Display Result =====================*/
+/*==================== Dark Mode Functionality =====================*/
+let darkMode = localStorage.getItem("darkMode");
+const toggleBtn = document.querySelector("#toggle-btn");
 
-function showDisplayResult() {}
+const enableDarkMode = () => {
+  document.body.classList.add("darkMode");
+  localStorage.setItem("darkMode", "active");
+};
+
+const disableDarkMode = () => {
+  document.body.classList.remove("darkMode");
+  localStorage.setItem("darkMode", null);
+};
+
+if (darkMode == "active") enableDarkMode();
+
+toggleBtn.addEventListener("click", () => {
+  darkMode = localStorage.getItem("darkMode");
+  darkMode !== "active" ? enableDarkMode() : disableDarkMode();
+});
