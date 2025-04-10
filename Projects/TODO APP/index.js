@@ -1,15 +1,6 @@
-let todoList = [
-  {
-    item: "Buy Milk",
-    dueDate: "03/01/2025",
-  },
-  {
-    item: "Go to college",
-    dueDate: "03/01/2025",
-  },
-];
+let todoArr = localStorage.getItem("todoList");
+let todoList = JSON.parse(todoArr) || [];
 displayItems();
-
 function addTodo() {
   let todoInput = document.querySelector(".todo-input");
   let dateInput = document.querySelector(".date-input");
@@ -17,6 +8,7 @@ function addTodo() {
   todoInput.value = "";
   dateInput.value = "";
   displayItems();
+  localStorage.setItem("todoList", JSON.stringify(todoList));
 }
 
 function displayItems() {
