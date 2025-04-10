@@ -111,7 +111,7 @@ stumpBtn.addEventListener("click", () => {
   showDisplayResult("Stump", computerMove, resultMsg);
 });
 
-/*==================== Stump Button Functionality =====================*/
+/*==================== Reset Button Functionality =====================*/
 let resetBtn = document.querySelector("#reset-btn");
 
 resetBtn.addEventListener("click", () => {
