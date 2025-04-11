@@ -68,7 +68,7 @@ const generateResultMsg = (userMove, computerMove) => {
 };
 
 /*==================== Show Display Result =====================*/
-function showDisplayResult(userMove, computerMove, resultMsg, displayScore) {
+function showDisplayResult(userMove, computerMove, resultMsg) {
   localStorage.setItem("score", JSON.stringify(score));
 
   document.querySelector("#user-move").innerText = userMove
