@@ -1,7 +1,8 @@
 /* darkMode Functionality */
-let darkmode = localStorage.getItem("darkmode");
-
-const toggleBtn = document.querySelector("#toggle-btn");
+let toggleBallDM = localStorage.getItem("toggleBallDM");
+let darkMode = localStorage.getItem("darkmode");
+const toggleBtn = document.querySelector("#checkbox");
+const toggleBall = document.querySelector(".toggle-ball");
 
 const enableDarkMode = () => {
   document.body.classList.add("darkmode");
@@ -13,12 +14,40 @@ const disableDarkMode = () => {
   localStorage.setItem("darkmode", null);
 };
 
-if (darkmode == "active") enableDarkMode();
+const enableToggleBallDM = () => {
+  toggleBall.classList.add("js-toggle-ball");
+  localStorage.setItem("toggleBallDM", "active");
+};
+
+const disableToggleBallDM = () => {
+  toggleBall.classList.remove("js-toggle-ball");
+  localStorage.setItem("toggleBallDM", null);
+};
+
+if (toggleBallDM == "active") enableToggleBallDM();
+if (darkMode == "active") enableDarkMode();
 
 toggleBtn.addEventListener("click", () => {
-  darkmode = localStorage.getItem("darkmode");
-  darkmode !== "active" ? enableDarkMode() : disableDarkMode();
+  if (toggleBtn.checked) {
+    enableToggleBallDM();
+    enableDarkMode();
+  } else {
+    disableToggleBallDM();
+    disableDarkMode();
+  }
 });
+
+// Page load hone par check karo ki checkbox ka state localStorage me hai ya nahi
+window.onload = function () {
+  // const checkbox = document.getElementById("#checkbox");
+  const isChecked = localStorage.getItem("myCheckboxChecked");
+
+  // Agar stored value "true" hai to checkbox ko checked karo
+  toggleBtn.checked = isChecked === "true";
+
+  // Jab checkbox change ho to uska state localStorage me store karo
+  localStorage.setItem("myCheckboxChecked", toggleBtn.checked);
+};
 
 /* Calculator Functionality */
 let input1 = document.querySelector(".display");
@@ -28,7 +57,6 @@ let allClearBtn = document.querySelector("#all-clear");
 let backspaceBtn = document.querySelector("#backspace-btn");
 let displayValue = "";
 
-console.log(buttons);
 let arr = Array.from(buttons);
 // console.log(arr);
 arr.forEach((button) => {

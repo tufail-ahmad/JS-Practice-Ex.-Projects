@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="checkbox" id="myCheckbox"> Remember me
+
+  <script>
+    // Page load hone par check karo ki checkbox ka state localStorage me hai ya nahi
+    window.onload = function () {
+      const checkbox = document.getElementById('myCheckbox');
+      const isChecked = localStorage.getItem('myCheckboxChecked');
+
+      // Agar stored value "true" hai to checkbox ko checked karo
+      checkbox.checked = isChecked === 'true';
+
+      // Jab checkbox change ho to uska state localStorage me store karo
+      checkbox.addEventListener('change', function () {
+        localStorage.setItem('myCheckboxChecked', checkbox.checked);
+      });
+    };
+
+  </script>
+
+</body>
+
+</html>
