@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Input Types Demo</title>
+</head>
+
+<body>
+  <h2>All Input Types Example</h2>
+
+  <!-- Text -->
+  <label>Name:</label>
+  <input type="text" id="username" placeholder="Enter name"><br><br>
+
+  <!-- Email -->
+  <label>Email:</label>
+  <input type="email" id="email" placeholder="Enter email"><br><br>
+
+  <!-- Password -->
+  <label>Password:</label>
+  <input type="password" id="password" placeholder="Enter password"><br><br>
+
+  <!-- Number -->
+  <label>Age:</label>
+  <input type="number" id="age" placeholder="Enter age"><br><br>
+
+  <!-- Radio -->
+  <label>Gender:</label>
+  <input type="radio" name="gender" value="male"> Male
+  <input type="radio" name="gender" value="female"> Female<br><br>
+
+  <!-- Checkbox -->
+  <label>Interests:</label>
+  <input type="checkbox" name="interest" value="coding"> Coding
+  <input type="checkbox" name="interest" value="music"> Music
+  <input type="checkbox" name="interest" value="sports"> Sports<br><br>
+
+  <!-- Select dropdown -->
+  <label>Country:</label>
+  <select id="country">
+    <option value="">--Select--</option>
+    <option value="India">India</option>
+    <option value="USA">USA</option>
+    <option value="UK">UK</option>
+  </select><br><br>
+
+  <!-- Textarea -->
+  <label>About You:</label><br>
+  <textarea id="about" rows="4" cols="30" placeholder="Write something..."></textarea><br><br>
+
+  <button onclick="getData()">Get Data</button>
+
+  <script>
+    function getData() {
+      // Basic inputs
+      const name = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const age = document.getElementById('age').value;
+
+      // Radio (only checked one)
+      const genderEl = document.querySelector('input[name="gender"]:checked');
+      const gender = genderEl ? genderEl.value : 'Not selected';
+
+      // Checkbox (multiple can be selected)
+      const interestEls = document.querySelectorAll('input[name="interest"]:checked');
+      const interests = Array.from(interestEls).map(el => el.value);
+
+      // Select
+      const country = document.getElementById('country').value;
+
+      // Textarea
+      const about = document.getElementById('about').value;
+
+      console.log("----- User Data -----");
+      console.log("Name:", name);
+      console.log("Email:", email);
+      console.log("Password:", password);
+      console.log("Age:", age);
+      console.log("Gender:", gender);
+      console.log("Interests:", interests);
+      console.log("Country:", country);
+      console.log("About:", about);
+    }
+  </script>
+</body>
+
+</html>
