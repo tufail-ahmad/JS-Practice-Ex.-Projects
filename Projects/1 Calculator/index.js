@@ -1,4 +1,4 @@
-/* darkMode Functionality */
+// dark mode toggle functionality
 let toggleBallDM = localStorage.getItem("toggleBallDM");
 let darkMode = localStorage.getItem("darkmode");
 const toggleBtn = document.querySelector("#checkbox");
@@ -11,7 +11,7 @@ const enableDarkMode = () => {
 
 const disableDarkMode = () => {
   document.body.classList.remove("darkmode");
-  localStorage.setItem("darkmode", null);
+  localStorage.removeItem("darkmode"); // remove instead of storing null
 };
 
 const enableToggleBallDM = () => {
@@ -21,13 +21,15 @@ const enableToggleBallDM = () => {
 
 const disableToggleBallDM = () => {
   toggleBall.classList.remove("js-toggle-ball");
-  localStorage.setItem("toggleBallDM", null);
+  localStorage.removeItem("toggleBallDM"); // remove instead of storing null
 };
 
-if (toggleBallDM == "active") enableToggleBallDM();
-if (darkMode == "active") enableDarkMode();
+// If storage already says active, reflect that visual state
+if (toggleBallDM === "active") enableToggleBallDM();
+if (darkMode === "active") enableDarkMode();
 
-toggleBtn.addEventListener("click", () => {
+// When user toggles, update both UI and storage
+toggleBtn.addEventListener("change", () => {
   if (toggleBtn.checked) {
     enableToggleBallDM();
     enableDarkMode();
@@ -37,17 +39,16 @@ toggleBtn.addEventListener("click", () => {
   }
 });
 
-// Page load hone par check karo ki checkbox ka state localStorage me hai ya nahi
-window.onload = function () {
-  // const checkbox = document.getElementById("#checkbox");
-  const isChecked = localStorage.getItem("myCheckboxChecked");
+// Restore checkbox state on page load from the same storage keys
+window.addEventListener("DOMContentLoaded", () => {
+  // Prefer using the existing `darkmode` value to determine checked state
+  const darkModeStored = localStorage.getItem("darkmode");
+  toggleBtn.checked = darkModeStored === "active";
 
-  // Agar stored value "true" hai to checkbox ko checked karo
-  toggleBtn.checked = isChecked === "true";
-
-  // Jab checkbox change ho to uska state localStorage me store karo
-  localStorage.setItem("myCheckboxChecked", toggleBtn.checked);
-};
+  // (Optional) If you still want a separate key that stores true/false:
+  // localStorage.setItem("myCheckboxChecked", toggleBtn.checked ? "true" : "false");
+  // But don't call that on load before reading it — only update it when user changes.
+});
 
 /* Calculator Functionality */
 let input1 = document.querySelector(".display");
